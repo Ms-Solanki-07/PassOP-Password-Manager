@@ -10,8 +10,10 @@ const Manager = () => {
     const [form, setForm] = useState({ site: "", username: "", password: "", id: "" })
     const [passwordArray, setPasswordArray] = useState([])
 
+    const renderBackend = "https://passop-password-manager.onrender.com/"
+
     const getPassword = async () => {
-        const req = await fetch("http://localhost:3000/")
+        const req = await fetch(renderBackend)
         let passwords = await req.json();
         console.log(passwords)
         setPasswordArray(passwords)
@@ -36,7 +38,7 @@ const Manager = () => {
     const savePassword = async () => {
         if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
             setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-            await fetch("http://localhost:3000/", {
+            await fetch(renderBackend, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -45,12 +47,12 @@ const Manager = () => {
             })
 
             // if any such id exists in the db, then delete it
-            await fetch("http://localhost:3000/", {
+            await fetch(renderBackend, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({id:form.id})
+                body: JSON.stringify({ id: form.id })
             })
 
             // localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
@@ -84,12 +86,12 @@ const Manager = () => {
         if (ch) {
             console.log("deleting password with id: ", id)
             setPasswordArray(passwordArray.filter(item => item.id != id))
-            let res = await fetch("http://localhost:3000/", {
+            let res = await fetch(renderBackend, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({id})
+                body: JSON.stringify({ id })
             })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id != id)))
             toast('Password Deleted', {
@@ -107,7 +109,7 @@ const Manager = () => {
 
     const editPassword = (id) => {
         console.log("editing password with id: ", id)
-        setForm({...passwordArray.filter(i => i.id === id)[0], id: id})
+        setForm({ ...passwordArray.filter(i => i.id === id)[0], id: id })
         setPasswordArray(passwordArray.filter(item => item.id != id))
     }
 
