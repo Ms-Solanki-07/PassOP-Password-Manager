@@ -8,8 +8,8 @@ const mongoose = require('mongoose');
 dotenv.config()
 
 // Connection URL
-const url = process.env.MONGO_URL;
-const client = new MongoClient(url);
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri);
 
 // Database Name
 const dbName = 'passop';
