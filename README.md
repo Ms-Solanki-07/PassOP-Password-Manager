@@ -52,7 +52,7 @@
 
 ```bash
 https://github.com/Ms-Solanki-07/PassOP-Password-Manager.git
-cd passop
+cd PassOP-Password-Manager
 ```
 
 ### 2. Setup Backend
